@@ -127,6 +127,17 @@ class PhysicsCalculator:
 
 import streamlit as st
 
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background-color: #f7f9fc;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Page settings
 st.set_page_config(page_title="Little Calc Lab", layout="centered")
 
