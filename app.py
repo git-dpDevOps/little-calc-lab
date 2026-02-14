@@ -127,41 +127,6 @@ class PhysicsCalculator:
 
 import streamlit as st
 
-st.markdown(
-    """
-    <style>
-    .stApp {
-        background-color: #f7f9fc;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-st.markdown("""
-<style>
-
-body, .stApp {
-    color: inherit;
-}
-
-input, textarea {
-    border-radius: 8px !important;
-}
-
-.stButton > button {
-    border-radius: 8px;
-    border: 1px solid rgba(128,128,128,0.4);
-    padding: 0.5rem 1rem;
-}
-
-.stButton > button:hover {
-    border-color: rgba(128,128,128,0.7);
-}
-
-</style>
-""", unsafe_allow_html=True)
-
 # Page settings
 st.set_page_config(page_title="Little Calc Lab", layout="centered")
 
