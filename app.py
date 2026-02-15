@@ -66,7 +66,76 @@ class UnitConverter:
 
         return conversions
 
+class UniversalUnitConverter:
 
+    UNIT_MAP = {
+
+        "distance": {
+            "m": 1,
+            "km": 1000,
+            "cm": 0.01,
+            "mm": 0.001
+        },
+
+        "time": {
+            "s": 1,
+            "min": 60,
+            "hr": 3600
+        },
+
+        "mass": {
+            "kg": 1,
+            "g": 0.001
+        },
+
+        "area": {
+            "m^2": 1,
+            "cm^2": 0.0001,
+            "mm^2": 0.000001
+        },
+
+        "speed": {
+            "m/s": 1,
+            "km/h": 1000/3600
+        },
+
+        "force": {
+            "n": 1
+        },
+
+        "pressure": {
+            "pa": 1,
+            "kpa": 1000
+        },
+
+        "density": {
+            "kg/m^3": 1,
+            "g/cm^3": 1000
+        },
+
+        "work": {
+            "j": 1
+        },
+
+        "power": {
+            "w": 1,
+            "kw": 1000
+        }
+
+    }
+
+    @classmethod
+    def convert_to_si(cls, quantity, value, unit):
+
+        quantity = quantity.lower()
+        unit = unit.lower()
+
+        if quantity in cls.UNIT_MAP:
+            if unit in cls.UNIT_MAP[quantity]:
+                return value * cls.UNIT_MAP[quantity][unit]
+
+        return value
+        
 # -----------------------------
 # Physics Calculator Class
 # -----------------------------
@@ -98,8 +167,10 @@ class PhysicsCalculator:
         ]
 
     def add_quantity(self, name, value, unit):
-        self.quantities[name.lower()] = value
 
+    value = UniversalUnitConverter.convert_to_si(name, value, unit)
+
+    self.quantities[name.lower()] = value
     def suggest_computable(self):
         suggestions = []
         for formula in self.formulas:
