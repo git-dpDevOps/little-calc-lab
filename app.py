@@ -207,3 +207,14 @@ if st.button("Compute"):
             st.write("Unit is m/(s²)")
     else:
         st.warning("Missing data for that calculation.")
+st.subheader("Saved Data")
+
+if calc.quantities:
+    for key, val in calc.quantities.items():
+        st.write(f"{key.capitalize()} : {val}")
+else:
+    st.write("No data saved yet.")
+    
+if st.button("Clear Data"):
+    calc.quantities.clear()
+    st.success("All data cleared.")    
