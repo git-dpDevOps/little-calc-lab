@@ -262,14 +262,14 @@ st.divider()
 st.subheader("Show Computable Quantities")
 
 if st.button("Show Computable"):
-    sug = calc.suggest_computable()
 
-    if sug:
-        st.write(", ".join(sug))
+    formulas = calc.suggest_computable_with_formulas()
+
+    if formulas:
+        for formula in formulas:
+            st.write(f"{formula.output.capitalize()} → {formula.formula_text}")
     else:
         st.write("None")
-
-st.divider()
 
 # =========================
 # 3. Calculate
