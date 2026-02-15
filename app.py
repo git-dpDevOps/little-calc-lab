@@ -192,8 +192,6 @@ class PhysicsCalculator:
                 return formula.compute(self.quantities)
         return None    
 
-
-
 import streamlit as st
 
 # Page settings
@@ -211,6 +209,24 @@ st.title("Little Calc Lab")
 st.caption("Physics Numerical Solver - Class 7 & 8")
 
 # =========================
+# Saved Data (Moved to TOP)
+# =========================
+
+st.subheader("Saved Data")
+
+if calc.quantities:
+    for key, val in calc.quantities.items():
+        st.write(f"{key.capitalize()} : {val}")
+else:
+    st.write("No data saved yet.")
+
+if st.button("Clear Data"):
+    calc.quantities.clear()
+    st.success("All data cleared.")
+
+st.divider()
+
+# =========================
 # 1. Enter Given Data
 # =========================
 
@@ -219,20 +235,25 @@ st.subheader("Enter Given Data")
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    name = st.text_input("Quantity name")
+    name = st.selectbox(
+        "Quantity",
+        list(UniversalUnitConverter.UNIT_MAP.keys())
+    )
 
 with col2:
     value = st.number_input("Value")
 
 with col3:
-    unit = st.text_input("Unit")
+    unit = st.selectbox(
+        "Unit",
+        list(UniversalUnitConverter.UNIT_MAP[name].keys())
+    )
 
 if st.button("Add Data"):
-    if name:
-        calc.add_quantity(name, value, unit)
-        st.success(f"Added {name}")
-    else:
-        st.warning("Enter quantity name")
+    calc.add_quantity(name, value, unit)
+    st.success(f"Added {name}")
+
+st.divider()
 
 # =========================
 # 2. Show Computable Quantities
@@ -245,13 +266,10 @@ if st.button("Show Computable"):
 
     if sug:
         st.write(", ".join(sug))
-
-        # show formulas like your main()
-        formulas = calc.suggest_computable_with_formulas()
-        for formula in formulas:
-            st.write(f"{formula.output.capitalize()} → {formula.formula_text}")
     else:
         st.write("None")
+
+st.divider()
 
 # =========================
 # 3. Calculate
@@ -259,9 +277,13 @@ if st.button("Show Computable"):
 
 st.subheader("Calculate")
 
-target = st.text_input("Which quantity to compute?")
+target = st.selectbox(
+    "Which quantity to compute?",
+    [f.output for f in calc.formulas]
+)
 
 if st.button("Compute"):
+
     res = calc.compute(target)
 
     if res is not None:
@@ -272,18 +294,5 @@ if st.button("Compute"):
         for u, v in convs.items():
             st.write(f"{v:.4f} {u}")
 
-        if target.lower() == "acceleration":
-            st.write("Unit is m/(s²)")
     else:
         st.warning("Missing data for that calculation.")
-st.subheader("Saved Data")
-
-if calc.quantities:
-    for key, val in calc.quantities.items():
-        st.write(f"{key.capitalize()} : {val}")
-else:
-    st.write("No data saved yet.")
-    
-if st.button("Clear Data"):
-    calc.quantities.clear()
-    st.success("All data cleared.")    
