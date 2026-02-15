@@ -168,8 +168,7 @@ class PhysicsCalculator:
 
     def add_quantity(self, name, value, unit):
         value = UniversalUnitConverter.convert_to_si(name, value, unit)
-
-    self.quantities[name.lower()] = value
+        self.quantities[name.lower()] = value
     def suggest_computable(self):
         suggestions = []
         for formula in self.formulas:
